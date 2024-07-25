@@ -1,14 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
+<!-- NOTA -->
+ <!-- NO UTILICE LAS ETIQUETAS SEMANTICAS YA QUE UTILICE BOOTSTRAP Y COMO NO SE CALIFICA ESTRICTAMENTE HMTML Y CSS, SIMPLEMENTE GENERE UN HTML FUNCIONAL PARA LAS CONSIGNAS REQUERIDAS
+  AL MOMENTO DE LA ENTREGA FINAL LAS AGREGARE JUNTO A MAS CONTENIDO. -->
+
+
+  <!DOCTYPE html>
+  <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!--JS-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Registro Financiero</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="./css/styles.css">
     <script defer src="./js/main.js"></script>
-    <title>Curso Js</title>
   </head>
   <body>
-    <h1>Curso JS -Juan Lautaro Agostini</h1>
+    <div class="container mt-4">
+      <h1 class="text-center">Formulario de Registro Financiero</h1>
+      <hr class="divider">
+      <img src="./assets/img/pic1.jpg" class="img-fluid" alt="Business Image">
+      <div id="error" class="alert alert-danger" style="display: none;"></div>
+      <div class="row">
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="formulario-contenedor p-3 h-100">
+            <form id="registroForm">
+              <div class="form-group">
+                <label for="descripcion">Descripción:</label>
+                <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+              </div>
+              <div class="form-group">
+                <label for="monto">Monto:</label>
+                <input type="number" class="form-control" id="monto" name="monto" required>
+              </div>
+              <div class="form-group">
+                <label for="tipo">Tipo:</label>
+                <select id="tipo" name="tipo" class="form-control" required>
+                  <option value="ganancia">Ganancia</option>
+                  <option value="deuda">Deuda</option>
+                </select>
+              </div>
+              <button type="submit" class="shadow__btn">Cargar</button>
+            </form>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="historial-contenedor p-3 h-100">
+            <h2>Historial</h2>
+            <input type="text" id="buscar" class="form-control mb-3" placeholder="Buscar por descripción">
+            <div class="row">
+              <div class="col-6">
+                <h3>Ganancias</h3>
+                <ul id="gananciaLista" class="list-group"></ul>
+              </div>
+              <div class="col-6">
+                <h3>Deudas</h3>
+                <ul id="deudaLista" class="list-group"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+          <div class="total-contenedor p-3 h-100">
+            <h2>Total:</h2>
+            <span id="totalMonto" class="h3">$0</span>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <p>Curso JS CODERHOUSE - Comisión 62015</p>
+        <a href="https://github.com/JuanAgostini/Curso-JS---Lautaro-Agostini">Github</a>
+      </footer>
+    </div>
+  
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </body>
-</html>
+  </html>
+  

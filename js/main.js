@@ -1,85 +1,127 @@
-const saludarUsuario = () => {
-    let nombreUsuario = prompt("¡Hola! ¿Cuál es tu nombre?");
-    console.log("Bienvenido/a,"+ nombreUsuario );
-};
+// CursoJS Coderhouse - comision 62015 - Alumno Juan Lautaro Agostini
 
-const verTareas = (tareas) => {
-    if (tareas.length === 0) {
-        return "No hay tareas en la lista.";
-    }
-    for (let i = 0; i < tareas.length; i++) {
-        console.log(i + ": " + tareas[i]);
+// Mi idea era hacer una to do list pero me gusto mas la idea de hacer algo financiero para asi poder utilizar personalmente. 
+// Falta mucho por editar y funcionalidades por agregar pero la idea general es que pueda guardar todos los ingresos y egresos de dinero asi como guardar futuros gastos y editarlos
+// Me esta costando bastante el hecho de como utilizar la logica por eso lo hice tan simple pero cumple con las consignas asignadas para esta pre entrega, espero poder mejorarlo.
 
-    }
-    return "Esta es tu lista de tareas.";
-};
+document.addEventListener('DOMContentLoaded', () => {
+    const TIPO_GANANCIA = 'ganancia';
+    const TIPO_DEUDA = 'deuda';
 
-const crearTarea = (tareas, tarea) => {
-    tareas.push(tarea);
-    return "La tarea ha sido agregada exitosamente!";
-}
-
-const eliminarUltimaTarea = (tareas) => {
-    tareas.pop();
-    return "La tarea ha sido eliminada satisfactoriamente!";
-}
-
-const actualizarTarea = (tareas, indice, nuevaTarea) => {
-    if (indice >= 0 && indice < tareas.length) {
-        tareas[indice] = nuevaTarea;
-        return "¡La tarea ha sido actualizada exitosamente!";
-    }
-    return "Índice no válido.";
-};
-
-saludarUsuario();
-
-let listaDeTareas = [];
-let resultado = "";
-let asignarTarea = true;
-
-while (asignarTarea){
-    const opciones = parseInt(prompt(
-      "Asigne que operación desea realizar \n " +
-      "1 - Para añadir una nueva tarea. \n " +
-      "2 - Para quitar la ultima tarea agregada. \n " +
-      "3 - Ver la lista de tareas. \n " +
-      "4 - Actualizar una tarea."
-    ));
-
-    switch (opciones) {
-        case 1:
-            let tarea = prompt("Ingrese su tarea pendiente");
-            resultado = crearTarea(listaDeTareas, tarea);
-            break;
-        case 2:
-            resultado = eliminarUltimaTarea(listaDeTareas);
-            break;
-        case 3:
-            resultado = verTareas(listaDeTareas);
-            break;
-        case 4:
-            verTareas(listaDeTareas);
-            let indice = parseInt(prompt("Ingrese el numero de la tarea que desea actualizar:"));
-            let nuevaTarea = prompt("Ingrese la nueva descripción de la tarea");
-            resultado = actualizarTarea(listaDeTareas, indice, nuevaTarea);
-            break;
-        default:
-            resultado = "Opción inválida, por favor vuelva a seleccionar una opción";
-            break;
-    }
-    alert(resultado);
-
-    let confirmacion = prompt("Desea continuar navegando en la lista de tareas? (si/no)".toLowerCase());
-
-    while(confirmacion != "si" && confirmacion != "no"){
-        alert("opción incorrecta. Vuelva a ingresar nuevamente");
-        confirmacion = prompt("Desea continuar navegando en la lista de tareas? (si/no)".toLowerCase());
+    class Registro {
+        constructor(descripcion, monto, tipo) {
+            this.descripcion = descripcion;
+            this.monto = monto;
+            this.tipo = tipo;
+        }
     }
 
-    if(confirmacion=="no") {
-        asignarTarea=false
-        console.log("Gracias por utilizar nuestra agenda");
-    }
-}
+    const form = document.getElementById('registroForm');
+    const gananciaLista = document.getElementById('gananciaLista');
+    const deudaLista = document.getElementById('deudaLista');
+    const totalMonto = document.getElementById('totalMonto');
+    const buscarInput = document.getElementById('buscar');
+    const error = document.getElementById('error');
 
+    let registros = JSON.parse(localStorage.getItem('registros')) || [];
+    let total = parseFloat(totalMonto.textContent.replace('$', ''));
+
+    const mostrarError = (mensaje) => {
+        error.textContent = mensaje;
+        error.style.display = 'block';
+        setTimeout(() => {
+            error.style.display = 'none';
+        }, 3000); 
+    };
+
+    const ocultarError = () => {
+        error.style.display = 'none';
+    };
+
+    const renderHistorial = () => {
+        gananciaLista.innerHTML = '';
+        deudaLista.innerHTML = '';
+        registros.forEach((registro, index) => {
+            const li = document.createElement('li');
+            li.classList.add('list-group-item', registro.tipo === TIPO_GANANCIA ? 'list-group-item-success' : 'list-group-item-danger');
+            li.innerHTML = `${registro.descripcion} - $${registro.monto.toFixed(2)} 
+                            <i class="fas fa-trash iconos" onclick="eliminarRegistro(${index})"></i>`;
+            if (registro.tipo === TIPO_GANANCIA) {
+                gananciaLista.appendChild(li);
+            } else {
+                deudaLista.appendChild(li);
+            }
+        });
+    };
+
+    const actualizarTotal = () => {
+        total = registros.reduce((sum, registro) => {
+            return registro.tipo === TIPO_GANANCIA ? sum + registro.monto : sum - registro.monto;
+        }, 0);
+        totalMonto.textContent = `$${total.toFixed(2)}`;
+    };
+
+    const eliminarRegistro = (index) => {
+        const registro = registros[index];
+        const posibleTotal = registro.tipo === TIPO_GANANCIA ? total - registro.monto : total;
+
+        if (registro.tipo === TIPO_GANANCIA && posibleTotal < 0) {
+            mostrarError('No se puede eliminar esta ganancia por que resultará en un total negativo.');
+            return;
+        }
+
+        ocultarError();
+        registros.splice(index, 1);
+        localStorage.setItem('registros', JSON.stringify(registros));
+        renderHistorial();
+        actualizarTotal();
+    };
+
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const descripcion = document.getElementById('descripcion').value;
+        const monto = parseFloat(document.getElementById('monto').value);
+        const tipo = document.getElementById('tipo').value;
+
+        if (tipo === TIPO_DEUDA && monto > total) {
+            mostrarError('El monto de la deuda no puede ser mayor que el total.');
+            return;
+        }
+
+        ocultarError();
+
+        const registro = new Registro(descripcion, monto, tipo);
+        registros.push(registro);
+        localStorage.setItem('registros', JSON.stringify(registros));
+
+        renderHistorial();
+        actualizarTotal();
+
+        form.reset();
+    });
+
+    buscarInput.addEventListener('input', () => {
+        const filtro = buscarInput.value.toLowerCase();
+        gananciaLista.innerHTML = '';
+        deudaLista.innerHTML = '';
+        registros
+            .filter(registro => registro.descripcion.toLowerCase().includes(filtro))
+            .forEach((registro, index) => {
+                const li = document.createElement('li');
+                li.classList.add('list-group-item', registro.tipo === TIPO_GANANCIA ? 'list-group-item-success' : 'list-group-item-danger');
+                li.innerHTML = `${registro.descripcion} - $${registro.monto.toFixed(2)} 
+                                <i class="fas fa-trash iconos" onclick="eliminarRegistro(${index})"></i>`;
+                if (registro.tipo === TIPO_GANANCIA) {
+                    gananciaLista.appendChild(li);
+                } else {
+                    deudaLista.appendChild(li);
+                }
+            });
+    });
+
+    renderHistorial();
+    actualizarTotal();
+
+    window.eliminarRegistro = eliminarRegistro;
+});

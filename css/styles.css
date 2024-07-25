@@ -1,0 +1,159 @@
+body {
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background: rgb(255,255,255);
+    background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 45%, rgba(213,242,249,1) 100%);
+  }
+  
+  h1 {
+    text-align: center;
+    width: 100%;
+    box-shadow: 0 0 10px rgb(66, 66, 66);
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #e3f2fd;  
+    border-radius: 8px;  
+  }
+  
+  .divider {
+    border-top: 2px solid #616161;
+    margin-bottom: 20px;
+  }
+  
+  img.img-fluid {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    margin-bottom: 20px;
+  }
+  
+  .contenedor {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .formulario-contenedor, .historial-contenedor, .total-contenedor {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .formulario-contenedor {
+    background-color: #e3f2fd;
+  }
+  
+  .historial-contenedor {
+    background-color: #fce4ec;
+  }
+  
+  .total-contenedor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .ganancia {
+    color: green;
+  }
+  
+  .deuda {
+    color: red;
+  }
+  
+  .historial {
+    margin-top: 20px;
+  }
+  
+  .total {
+    margin-top: 20px;
+    font-weight: bold;
+    text-align: center;
+  
+  }
+  
+  .error {
+    display: none;
+  }
+  
+  .iconos {
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+  .list-group-item {
+    margin-bottom: 10px;
+  }
+  
+  footer {
+    margin-top: 100px;
+    text-align: center;
+    width: 100%;
+    background-color: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(169,189,200,1) 13%, rgba(158,239,255,1) 100%);
+    padding: 10px 0;
+  }
+  
+  footer p {
+    margin: 0;
+    font-size: small;
+  }
+  
+  footer a {
+    display: block;
+    margin-top: 5px;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  h3 {
+    font-size: 1.25rem;
+  }
+  
+  @media (max-width: 576px) {
+    h1 {
+      font-size: 1.75rem;
+    }
+  
+    h2 {
+      font-size: 1.25rem;
+    }
+  
+    h3 {
+      font-size: 0.7rem;
+      
+    }
+  }
+  
+  .shadow__btn {
+    padding: 10px 20px;
+    border: none;
+    font-size: 17px;
+    color: #fff;
+    border-radius: 7px;
+    letter-spacing: 4px;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: 0.5s;
+    transition-property: box-shadow;
+  }
+  
+  .shadow__btn {
+    background: rgb(0,140,255);
+    box-shadow: 0 0 5px rgb(0,140,255);
+  }
+  
+  .shadow__btn:hover {
+    box-shadow: 0 0 5px rgb(0,140,255),
+                0 0 10px rgb(0,140,255),
+                0 0 20px rgb(0,140,255),
+                0 0 40px rgb(0,140,255);
+  }
+  
